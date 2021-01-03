@@ -1,7 +1,7 @@
 const {Genre, validate} = require ('../models/genre');
 const mongoose = require ('mongoose');
 //const Joi = require('joi');
-const express = require('./node_modules/express');
+const express = require('express');
 const router = express.Router()
 router.use(express.json());
 

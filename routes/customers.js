@@ -1,7 +1,7 @@
 const {Customer, validate} = require ('../models/customer');
 const mongoose = require ('mongoose');
-const Joi = require('./node_modules/joi');
-const express = require('./node_modules/express');
+const Joi = require('joi');
+const express = require('express');
 
 const router = express.Router()
 router.use(express.json());

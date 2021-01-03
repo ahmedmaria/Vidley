@@ -65,5 +65,5 @@ function validateRental(rental) {
     return {error};
 }
 
-modules.exports.Rental = Rental; 
-modules.exports.validate = validateRental;
+module.exports.Rental = Rental; 
+module.exports.validate = validateRental;
