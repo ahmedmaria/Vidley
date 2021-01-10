@@ -15,8 +15,10 @@ router.post('/', async (req, res) => {
 
   const genre = await Genre.findById(req.body.genreId);
   if (!genre) return res.status(400).send('Invalid genre.');
-
-  let movie = new Movie({ 
+ // changing let to const as objectId is set by
+ //MongoDB driver not the Database. variable movie will not change.
+  const movie = new Movie({ 
+                             
     title: req.body.title,
     genre: {
       _id: genre._id,
@@ -25,8 +27,9 @@ router.post('/', async (req, res) => {
     numberInStock: req.body.numberInStock,
     dailyRentalRate: req.body.dailyRentalRate
   });
-  movie = await movie.save();
-  
+  // no need to assign again to movie for objectId
+  //movie = await movie.save();
+  await movie.save();
   res.send(movie);
 });
 

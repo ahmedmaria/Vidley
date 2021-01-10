@@ -1,12 +1,12 @@
 const {Rental, validate} = require('../models/rental'); 
 const {Movie} = require('../models/movie'); 
 const {Customer} = require('../models/customer'); 
-const mongoose = require('mongoose');
-//const Fawn = require('fawn');
 const Fawn = require('fawn');
+const mongoose = require('mongoose');
 const express = require('express');
 const router = express.Router();
 
+Fawn.init(mongoose);
 router.get('/', async (req, res) => {
   const rentals = await Rental.find().sort('-dateOut');
   res.send(rentals);
@@ -14,7 +14,7 @@ router.get('/', async (req, res) => {
 
 router.post('/', async (req, res) => {
   const { error } = validate(req.body); 
-  if (error) return res.status(400).send(error.details[0].message);
+  if (error) return res.status(400).send(error.details[0].message); // [0] .details.message
 
   const customer = await Customer.findById(req.body.customerId);
   if (!customer) return res.status(400).send('Invalid customer.');
@@ -36,7 +36,8 @@ router.post('/', async (req, res) => {
       dailyRentalRate: movie.dailyRentalRate
     }
   });
- //-------without transaction
+
+  //-------without transaction
   // rental = await rental.save();
 
   // movie.numberInStock--;
@@ -55,9 +56,10 @@ router.post('/', async (req, res) => {
 
   catch(ex)
   {
-    res.status(500).send('Something failed.', ex)
+    res.status(500).send('Something failed.')
   }
 
+ 
 });
 
 router.get('/:id', async (req, res) => {
