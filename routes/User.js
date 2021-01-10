@@ -1,4 +1,5 @@
 const {User, validate} = require ('../models/user');
+const _ = require('lodash');
 const mongoose = require ('mongoose');
 //const Joi = require('joi');
 const express = require('express');
@@ -13,19 +14,23 @@ router.post('/', async (req, res) => {
    
     let user = await User.findOne({email : req.body.email});
     if(user)
-    return res.status(400).send('User Email is registered. Use a different Email address')
-    user = new User( 
-      {
-          name : req.body.name,
-          email: req.body.email,
-          password: req.body.password
-        });
+    return res.status(400).send('User Email is registered. Use a different Email address');
+   // with lodash
+   user = new User(_.pick(req.body , ['name', 'email', 'password']));
+    // user = new User( 
+    //   {
+    //       name : req.body.name,
+    //       email: req.body.email,
+    //       password: req.body.password
+    //     });
      await user.save();
+     // with lodash
+     res.send(_.pick(user, ['id','name', 'email']))
        
-     res.send({
-       name:  user.name,
-        email: user.email
-     });
+    //  res.send({
+    //    name:  user.name,
+    //     email: user.email
+    //  });
     });
     
     
