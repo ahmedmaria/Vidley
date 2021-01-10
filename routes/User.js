@@ -1,5 +1,6 @@
 const {User, validate} = require ('../models/user');
 const _ = require('lodash');
+const bcrypt = require ('bcrypt');
 const mongoose = require ('mongoose');
 //const Joi = require('joi');
 const express = require('express');
@@ -17,6 +18,10 @@ router.post('/', async (req, res) => {
     return res.status(400).send('User Email is registered. Use a different Email address');
    // with lodash
    user = new User(_.pick(req.body , ['name', 'email', 'password']));
+   //------hashing user password-------
+   const salt = await bcrypt.genSalt(5);
+   user.password = await bcrypt.hash(user.password, salt);
+
     // user = new User( 
     //   {
     //       name : req.body.name,
