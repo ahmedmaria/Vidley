@@ -1,4 +1,5 @@
 const {User} = require ('../models/user');
+const jwt = require ('jsonwebtoken');
 const Joi = require('joi');
 const bcrypt = require ('bcrypt');
 const mongoose = require ('mongoose');
@@ -20,15 +21,15 @@ router.post('/', async (req, res) => {
    const validPassword = await bcrypt.compare(req.body.password, user.password);
    if(!validPassword)
    return res.status(400).send('Invalid email or password');
-
-   res.send(true);
+   const token =  jwt.sign({_id: user._id}, 'jwtprivatekey'); 
+   res.send(token);
 
      
     });
     
     async function validate(req){
       
-        const schema = JOi.object({
+        const schema = Joi.object({
             email : Joi.String().min(3).max(255).email().required(),
             password : Joi.String().min(5).max(1024).required()
         })
