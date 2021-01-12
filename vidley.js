@@ -6,6 +6,7 @@ const customers = require('./routes/customers')
 const movies = require('./routes/movies');
 const rentals = require('./routes/rentals');
 const user = require('./routes/user');
+const auth = require('./routes/auth');
 const express = require('express');
 
 const app = express();
@@ -24,6 +25,7 @@ app.use('/api/customers', customers);
 app.use('/api/movies', movies);
 app.use('/api/rentals', rentals);
 app.use('/api/users', user);
+app.use('/api/auth', auth);
 
 
 
