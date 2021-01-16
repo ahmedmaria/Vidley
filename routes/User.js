@@ -1,4 +1,5 @@
 const {User, validate} = require ('../models/user');
+const auth = require('../middleware/auth');
 const _ = require('lodash');
 const config = require('config');
 const jwt = require ('jsonwebtoken');
@@ -8,6 +9,12 @@ const mongoose = require ('mongoose');
 const express = require('express');
 const router = express.Router()
 router.use(express.json());
+// using /me instead of /:id so that one user can not see other users data
+router.get('/me', auth, async(req,res) =>{
+const user = await User.findById(req.user._id).select('-password');
+res.send(user);
+});
+
 
 router.post('/', async (req, res) => {
     const {error} =  validate(req.body);
