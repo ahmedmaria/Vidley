@@ -32,7 +32,8 @@ router.post('/', async (req, res) => {
     //     });
      await user.save();
      // with lodash
-     const token =  jwt.sign({_id: user._id}, config.get('jwtPrivateKey')); 
+     const token = user.generateAuthToken();
+     //const token =  jwt.sign({_id: user._id}, config.get('jwtPrivateKey')); 
      res.header('x-auth-token', token).send(_.pick(user, ['id','name', 'email']));
        
     //  res.send({
